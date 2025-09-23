@@ -1,0 +1,12 @@
+import { string, z } from "zod";
+
+export const signupSchema = z.object({
+  username: z.string(),
+  password: z.string(),
+  name: z.string(),
+});
+
+export const loginSchema = z.object({
+  username: string(),
+  password: string(),
+});
