@@ -20,6 +20,9 @@ export async function POST(request: Request) {
         username,
         password: hashedPassword,
         name,
+        picture: `https://avatar.iran.liara.run/public/${Math.floor(
+          Math.random() * 100
+        )}`,
       },
     });
     return NextResponse.json(user, { status: 200 });
