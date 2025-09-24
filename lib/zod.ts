@@ -10,3 +10,10 @@ export const loginSchema = z.object({
   username: string(),
   password: string(),
 });
+
+const colors = ["#a5b59d", "#ebbba7", "#e18a77"];
+
+export const createTodoSchema = z.object({
+  title: z.string(),
+  color: z.enum(colors),
+});

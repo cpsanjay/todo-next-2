@@ -19,17 +19,17 @@ model User {
   name      String
   password  String
   createdAt DateTime  @default(now())
-  updatedAt DateTime?
+  updatedAt DateTime? @default(now())
   todos     Todos[]
 }
 
 model Todos {
-  id        String   @unique @default(uuid())
+  id        String   @id @default(uuid())
   title     String
   authorId  String
   user      User     @relation(fields: [authorId], references: [userId])
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @default(now())
   completed Boolean  @default(false)
   color     String   @default("#a5b59d")
 }
