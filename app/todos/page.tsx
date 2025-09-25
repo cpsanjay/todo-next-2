@@ -7,8 +7,9 @@ import { useEffect, useState } from "react";
 
 export default function Todos() {
   const [todos, setTodos] = useState([]);
-  const { userId } = useAuth();
+  const { user } = useAuth();
   useEffect(() => {
+    if (!user) return;
     const getTodos = async () => {
       try {
         const res = await fetch("/api/todo/todos", {
@@ -22,7 +23,7 @@ export default function Todos() {
       }
     };
     getTodos();
-  }, [userId]);
+  }, [user]);
 
   const handleDelete = (id) => {
     setTodos((items) => items.filter((item) => item.id !== id));

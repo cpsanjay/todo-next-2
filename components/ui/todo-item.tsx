@@ -45,8 +45,11 @@ export function TodoItem({ description = "", item = {}, onToggle, onDelete }) {
       setLoading(false);
     }
   };
+
   return (
-    <div className="flex items-center gap-4 my-2">
+    <div
+      className={`flex items-center gap-4 my-2 mx-2 bg-[${item.color}] text-black border-radium rounded-md p-1`}
+    >
       <Checkbox
         className="peer-absolute left-0 translate-x-2.5"
         id="todo1"
@@ -66,7 +69,7 @@ export function TodoItem({ description = "", item = {}, onToggle, onDelete }) {
         variant="outline"
         onClick={handleDelete}
       >
-        <TrashIcon className="h-4 w-4" />
+        <TrashIcon className="h-4 w-4 border-black" />
         <span className="sr-only">Delete task</span>
       </Button>
     </div>

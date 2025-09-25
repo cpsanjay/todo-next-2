@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export function LoginForm({
   className,
@@ -19,6 +20,7 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const handleLogin = async () => {
     try {
@@ -30,7 +32,8 @@ export function LoginForm({
         }),
         credentials: "include",
       });
-      console.log(await res.json());
+
+      router.push("/todos");
     } catch (error) {
       console.log(error);
     }

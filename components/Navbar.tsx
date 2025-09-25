@@ -76,7 +76,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
                 onClick={(e) => e.preventDefault()}
                 className="flex items-center space-x-2 text-primary hover:text-primary/90 transition-colors cursor-pointer"
               >
-                <span className="hidden font-bold text-xl sm:inline-block">
+                <span className="font-bold text-xl sm:inline-block">
                   TODO App
                 </span>
               </button>
