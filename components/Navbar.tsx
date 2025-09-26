@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 export interface Navbar01NavLink {
   href: string;
@@ -47,13 +48,13 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
       ctaHref = "#get-started",
       onSignInClick,
       onCtaClick,
-      user = {},
       ...props
     },
     ref
   ) => {
     const containerRef = useRef<HTMLElement>(null);
     const router = useRouter();
+    const { user } = useAuth();
 
     const combinedRef = React.useCallback(
       (node: HTMLElement | null) => {
