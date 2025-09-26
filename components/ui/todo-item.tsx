@@ -3,8 +3,15 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
+import AddTodoModal from "../add-todo-modal";
 
-export function TodoItem({ description = "", item = {}, onToggle, onDelete }) {
+export function TodoItem({
+  description = "",
+  item = {},
+  onToggle,
+  onDelete,
+  setTodos,
+}) {
   const [loading, setLoading] = useState(false);
   const [checked, setChecked] = useState(item?.completed);
 
@@ -63,15 +70,20 @@ export function TodoItem({ description = "", item = {}, onToggle, onDelete }) {
       >
         {description}
       </label>
-      <Button
-        className="ml-auto h-8 w-8"
-        size="icon"
-        variant="outline"
-        onClick={handleDelete}
-      >
-        <TrashIcon className="h-4 w-4 border-black" />
-        <span className="sr-only">Delete task</span>
-      </Button>
+      <div className="ml-auto">
+        <Button className="ml-auto h-8 w-8 mr-2" size="icon" variant="outline">
+          <AddTodoModal isEdit={true} todoData={item} setTodos={setTodos} />
+        </Button>
+        <Button
+          className="ml-auto h-8 w-8"
+          size="icon"
+          variant="outline"
+          onClick={handleDelete}
+        >
+          <TrashIcon className="h-4 w-4 border-black" />
+          <span className="sr-only">Delete task</span>
+        </Button>
+      </div>
     </div>
   );
 }

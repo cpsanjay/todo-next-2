@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { signupSchema } from "@/lib/zod";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
+const SECRET = process.env.JWT_SECRET;
 
 export async function POST(request: Request) {
   try {
@@ -25,8 +28,26 @@ export async function POST(request: Request) {
         )}`,
       },
     });
-    return NextResponse.json(user, { status: 200 });
+
+    const token = jwt.sign({ userId: user.userId }, SECRET, {
+      expiresIn: "7d",
+    });
+
+    const response = NextResponse.json(
+      { message: "Signup Successfull" },
+      { status: 200 }
+    );
+
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60,
+    });
+    return response;
   } catch (error) {
-    return NextResponse.json({ error }, { status: 402 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

@@ -21,8 +21,6 @@ export async function PUT(request: Request, { params }) {
       data: updateData,
     });
 
-    console.log(todo);
-
     if (todo.count === 0) {
       return NextResponse.json({ error: "Todo not found" }, { status: 404 });
     }

@@ -3,9 +3,15 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
-// Types
 export interface Navbar01NavLink {
   href: string;
   label: string;
@@ -22,7 +28,6 @@ export interface Navbar01Props extends React.HTMLAttributes<HTMLElement> {
   onSignInClick?: () => void;
   onCtaClick?: () => void;
 }
-// Default navigation links
 const defaultNavigationLinks: Navbar01NavLink[] = [
   { href: "#", label: "Home", active: true },
   { href: "#features", label: "Features" },
@@ -48,6 +53,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
     ref
   ) => {
     const containerRef = useRef<HTMLElement>(null);
+    const router = useRouter();
 
     const combinedRef = React.useCallback(
       (node: HTMLElement | null) => {
@@ -60,6 +66,18 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
       },
       [ref]
     );
+
+    const handleLogout = async () => {
+      try {
+        const res = await fetch("/api/user/logout", {
+          method: "POST",
+        });
+        if (res.ok) {
+          router.push("/login");
+        }
+      } catch (error) {}
+    };
+
     return (
       <header
         ref={combinedRef}
@@ -84,12 +102,25 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
           </div>
           <div className="flex items-center gap-3">
             {user ? (
-              <Avatar>
-                <AvatarImage
-                  src={user?.picture ?? "https://github.com/shadcn.png"}
-                  alt="@shadcn"
-                />
-              </Avatar>
+              <>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Avatar>
+                      <AvatarImage
+                        src={user?.picture ?? "https://github.com/shadcn.png"}
+                        alt="@shadcn"
+                      />
+                    </Avatar>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    className="w-40"
+                    align="end"
+                    onClick={handleLogout}
+                  >
+                    <DropdownMenuItem>Log out</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
             ) : (
               <Button
                 size="sm"
